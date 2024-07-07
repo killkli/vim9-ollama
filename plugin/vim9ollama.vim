@@ -209,7 +209,7 @@ def OllamaComplete()
   const prompt = res
 
   const data = {
-    "model": "codellama:7b-code",
+    "model": "Taide3",
     "prompt": prompt,
     "stream": false,
     "options": {
