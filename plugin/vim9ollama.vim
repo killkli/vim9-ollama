@@ -21,7 +21,7 @@ enddef
 def OllamaAsk(promt: string)
   const api = "http://192.168.1.36:11434/api/generate"
   const data = {
-    "model": "Taide:latest",
+    "model": "Taide3:latest",
     "prompt": promt,
     "stream": true,
   }
@@ -50,7 +50,7 @@ def OllamaChange(prompt: string)
 
   const api = "http://192.168.1.36:11434/api/generate"
   const data = {
-    "model": "Taide:latest",
+    "model": "Taide3:latest",
     "prompt": prompt .. res,
     "stream": true,
   }
@@ -77,7 +77,7 @@ def OllamaChangeCode(prompt: string)
 
   const api = "http://192.168.1.36:11434/api/generate"
   const data = {
-    "model": "Taide:latest",
+    "model": "Taide3:latest",
     "prompt": '\\\' ..  &filetype
     .. res
     .. '\\\'
@@ -116,7 +116,7 @@ def OllamaFill()
 
   const api = "http://192.168.1.36:11434/api/generate"
   const data = {
-    "model": "Taide:latest",
+    "model": "Taide3:latest",
     "prompt": res,
     "stream": true,
     "options": {
@@ -149,7 +149,7 @@ def OllamaRead(prompt: string)
 
   const api = "http://192.168.1.36:11434/api/generate"
   const data = {
-    "model": "Taide:latest",
+    "model": "Taide3:latest",
     "prompt": prompt .. res,
     "stream": true,
   }
