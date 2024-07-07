@@ -6,26 +6,6 @@ vim9script
 
 g:ollama_compl_candidat = ""
 
-def StartServer()
-    const cmd = [ "ollama", "serve" ]
-    const opts = {
-        "err_cb": OnSrvError
-    }
-    const job = job_start(cmd, opts)
-    echom "Starting server..."
-enddef
-
-
-def StopServer()
-    const cmd = [ "pkill", "-SIGTERM", "ollama" ]
-    const opts = {
-        "err_cb": OnSrvError
-    }
-    const job = job_start(cmd, opts)
-    echom "Stoping server..."
-enddef
-
-
 def OnSrvError(ch: channel, msg: string)
     echom msg
 enddef
@@ -39,9 +19,9 @@ def OnResponse(ch: channel, msg: string)
 enddef
 
 def OllamaAsk(promt: string)
-  const api = "http://localhost:11434/api/generate"
+  const api = "http://192.168.1.36:11434/api/generate"
   const data = {
-    "model": "codellama:latest",
+    "model": "Taide:latest",
     "prompt": promt,
     "stream": true,
   }
@@ -68,9 +48,9 @@ def OllamaChange(prompt: string)
 
   execute "normal! " .. start[0] .. "gg" .. start[1] .. "|" .. "v" .. end[0] .. "gg" .. end[1] .. "|" .. "d"
 
-  const api = "http://localhost:11434/api/generate"
+  const api = "http://192.168.1.36:11434/api/generate"
   const data = {
-    "model": "codellama:latest",
+    "model": "Taide:latest",
     "prompt": prompt .. res,
     "stream": true,
   }
@@ -95,9 +75,9 @@ def OllamaChangeCode(prompt: string)
 
   execute "normal! " .. start[0] .. "gg" .. start[1] .. "|" .. "v" .. end[0] .. "gg" .. end[1] .. "|" .. "d"
 
-  const api = "http://localhost:11434/api/generate"
+  const api = "http://192.168.1.36:11434/api/generate"
   const data = {
-    "model": "codellama:latest",
+    "model": "Taide:latest",
     "prompt": '\\\' ..  &filetype
     .. res
     .. '\\\'
@@ -134,9 +114,9 @@ def OllamaFill()
 
   execute "normal! " .. start[0] .. "gg" .. start[1] .. "|" .. "v" .. end[0] .. "gg" .. end[1] .. "|" .. "d"
 
-  const api = "http://localhost:11434/api/generate"
+  const api = "http://192.168.1.36:11434/api/generate"
   const data = {
-    "model": "codellama:latest",
+    "model": "Taide:latest",
     "prompt": res,
     "stream": true,
     "options": {
@@ -167,9 +147,9 @@ def OllamaRead(prompt: string)
 
   execute "normal! " .. end[0] .. "gg" .. end[1] .. "|" .. "o"
 
-  const api = "http://localhost:11434/api/generate"
+  const api = "http://192.168.1.36:11434/api/generate"
   const data = {
-    "model": "codellama:latest",
+    "model": "Taide:latest",
     "prompt": prompt .. res,
     "stream": true,
   }
@@ -224,7 +204,7 @@ def OllamaComplete()
     before_cursor,
   )
 
-  const api = "http://localhost:11434/api/generate"
+  const api = "http://192.168.1.36:11434/api/generate"
 
   const prompt = res
 
@@ -298,13 +278,9 @@ command! -nargs=1 OllamaAsk call OllamaAsk(<f-args>)
 command! -nargs=1 -range OllamaChange call OllamaChange(<f-args>)
 command! -nargs=1 -range OllamaChangeCode call OllamaChangeCode(<f-args>)
 command! -range OllamaFill call OllamaFill()
-command! OllamaReStart call StartServer()
 command! OllamaComplete call OllamaComplete()
 command! OllamaCompleteExc call OllamaCompleteExc()
 command! -nargs=1 -range OllamaRead call OllamaRead(<f-args>)
-
-:autocmd VimEnter * call StartServer()
-:autocmd VimLeavePre * call StopServer()
 
 inoremap <C-l> <ESC><ESC>:OllamaComplete<CR>
 inoremap <C-f> <ESC>:OllamaCompleteExc<CR>
